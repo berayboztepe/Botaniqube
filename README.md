@@ -25,4 +25,10 @@ MLOps - Azure ML Studio
 
 Model Architectures - fine-tuning VGG16 / VGG19
 
+## Team Members
+1. Antoni Dąbrowski - 317214
+2. Anuj Jhunjhunwala - 348612
+3. Emre Beray Boztepe - 350227
+4. Valery Tarasenko - 348715
+
 
