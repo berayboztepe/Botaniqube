@@ -25,6 +25,20 @@ MLOps - Azure ML Studio
 
 Model Architectures - fine-tuning VGG16 / VGG19
 
+## Datasets
+Plant classification:
+- https://plantnet.org/open-data/
+
+Disease classification:
+- https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset/data
+- https://paperswithcode.com/dataset/plantdoc
+- https://universe.roboflow.com/learning-eri4b/plant-disease-tmyq8
+- https://www.kaggle.com/datasets/sadmansakibmahi/plant-disease-expert
+- https://www.kaggle.com/datasets/sadmansakibmahi/plant-disease-expert
+- https://ieeexplore.ieee.org/document/10086516
+- https://github.com/pratikkayal/PlantDoc-Dataset
+
+
 ## Team Members
 1. Antoni Czapski - 317214
 2. Anuj Jhunjhunwala - 348612
