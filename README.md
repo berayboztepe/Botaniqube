@@ -26,6 +26,7 @@ MLOps - Azure ML Studio
 Model Architectures - fine-tuning VGG16 / VGG19
 
 ## Datasets
+
 Plant classification:
 - https://plantnet.org/open-data/
 
@@ -40,6 +41,7 @@ Disease classification:
 
 
 ## Team Members
+
 1. Antoni Czapski - 317214
 2. Anuj Jhunjhunwala - 348612
 3. Emre Beray Boztepe - 350227
