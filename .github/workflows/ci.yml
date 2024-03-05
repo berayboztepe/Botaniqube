@@ -25,8 +25,8 @@ jobs:
       - name: Lint with Ruff #https://github.com/astral-sh/ruff
         run: |
           pip install ruff 
-          ruff --format=github --target-version=py310 .
-        continue-on-error: true
+          ruff --format=github --target-version=py310
+        continue-on-error: false
 
   test:
     runs-on: ubuntu-latest
@@ -42,7 +42,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Test with pytest
-        run: coverage run -m pytest -v -s
+        run: coverage run -m pytest-cov -v -s
 
   coverage-report:
     runs-on: ubuntu-latest
