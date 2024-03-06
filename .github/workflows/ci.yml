@@ -1,17 +1,22 @@
-name: CI
+name: Run Test with Pytest
 
 on:
+  # Set the workflow to run on push events
   push:
+    branches:
+      - main
+  # Set the workflow to run on pull_request events
+  pull_request:
     branches:
       - main
 
 jobs:
-  build:
+  # Test job: Run unit tests and generate coverage report
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.10"]
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
@@ -21,32 +26,22 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          # Install dependencies from requirements.txt
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Lint with Ruff #https://github.com/astral-sh/ruff
-        run: |
-          pip install ruff 
-          ruff --format=github --target-version=py310
-        continue-on-error: false
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    strategy:
-      matrix:
-        python-version: ["3.10"]
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
       - name: Test with pytest
-        run: coverage run -m pytest-cov -v -s
+        run: |
+          # Run unit tests with pytest and capture coverage information.
+          pip install coverage pytest
+          coverage run -m pytest -v -s
+      - name: Generate Coverage Report
+        run: |
+          # Generate coverage report
+          coverage report -m
 
+  # Coverage-report job: Run only if the test job completes successfully
   coverage-report:
     runs-on: ubuntu-latest
-    needs: test
+    needs: test  # Ensure the test job has completed successfully
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}

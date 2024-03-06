@@ -1,6 +1,7 @@
 from kedro.framework.hooks import hook_impl
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
+from set_seed import set_seed
 
 
 class SparkHooks:
@@ -22,3 +23,7 @@ class SparkHooks:
         )
         _spark_session = spark_session_conf.getOrCreate()
         _spark_session.sparkContext.setLogLevel("WARN")
+        
+    @hook_impl
+    def before_node_run(self, node, catalog, inputs):
+        set_seed()
