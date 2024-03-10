@@ -20,6 +20,7 @@ data/**
 # keep also the example dataset
 !data/01_raw/*
 
+data/01_raw/plantnet_300K/
 
 ##########################
 # Common files
