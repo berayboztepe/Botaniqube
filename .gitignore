@@ -21,6 +21,7 @@ data/**
 !data/01_raw/*
 
 data/01_raw/plantnet_300K/
+!data/01_raw/sample/*
 
 ##########################
 # Common files
