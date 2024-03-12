@@ -33,10 +33,6 @@ jobs:
           # Run unit tests with pytest and capture coverage information.
           pip install coverage pytest
           coverage run -m pytest -v -s
-      - name: Generate Coverage Report
-        run: |
-          # Generate coverage report
-          coverage report -m
 
   # Coverage-report job: Run only if the test job completes successfully
   coverage-report:
