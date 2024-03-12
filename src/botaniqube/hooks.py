@@ -1,7 +1,7 @@
 from kedro.framework.hooks import hook_impl
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
-from set_seed import set_seed
+from setting_seed import set_seed
 
 
 class SparkHooks:
