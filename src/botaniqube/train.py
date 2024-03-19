@@ -4,6 +4,7 @@ import torch.optim as optim
 import torchvision
 from torchvision import transforms, datasets
 import yaml
+import os
 
 # Load parameters from parameters.yml
 with open('../../conf/base/parameters.yml', 'r') as file:
@@ -13,7 +14,7 @@ data_transforms = {
     'train': transforms.Compose([
         transforms.Resize(params['preprocessing']['image_size']),
         transforms.RandomHorizontalFlip(),
-        transforms.RandomRotation(params['preprocessing']['augmentation'][0]['rotation_range']),
+        transforms.RandomRotation(params['preprocessing']['augmentation'][1]['rotation_range']),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]),
@@ -25,10 +26,10 @@ data_transforms = {
 }
 
 # Define datasets
-data_dir = 'data/01_raw/new-plant-diseases-dataset/New Plant Diseases Dataset(Augmented)/New Plant Diseases Dataset(Augmented)'
-image_datasets = {x: datasets.ImageFolder(root=f"{data_dir}/{x}", transform=data_transforms[x]) for x in ['train', 'valid']}
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=params['training']['batch_size'], shuffle=True, num_workers=4) for x in ['train', 'valid']}
-dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'valid']}
+data_dir = '../../data/01_raw/disease_dataset/new-plant-diseases-dataset/New Plant Diseases Dataset(Augmented)/New Plant Diseases Dataset(Augmented)'
+image_datasets = {x: datasets.ImageFolder(root=f"{data_dir}/{x}/{y}/", transform=data_transforms[x]) for x in ['train', 'valid'] for y in os.listdir(f"{data_dir}/{x}")}
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x][y], batch_size=params['training']['batch_size'], shuffle=True, num_workers=4) for x in ['train', 'valid'] for y in os.listdir(f"{data_dir}/{x}")}
+dataset_sizes = {x: len(image_datasets[x][y]) for x in ['train', 'valid'] for y in os.listdir(f"{data_dir}/{x}")}
 
 # Define the CNN model
 class CNN(nn.Module):
