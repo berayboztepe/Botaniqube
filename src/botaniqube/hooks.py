@@ -1,7 +1,7 @@
 from kedro.framework.hooks import hook_impl
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
-from setting_seed import set_seed
+from botaniqube.setting_seed import set_seed
 
 
 class SparkHooks:
