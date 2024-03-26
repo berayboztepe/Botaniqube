@@ -3,6 +3,7 @@ network:
   type: "CNN"
   num_layers: 5
   hidden_units: 256
+  num_classes: 10
 
 # Training Hyperparameters
 training:
