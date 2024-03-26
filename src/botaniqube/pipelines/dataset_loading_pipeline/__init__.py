@@ -1,3 +1,3 @@
 # Botaniqube Dataset Loading Pipeline #
 
-from ..pipeline import create_pipeline  # NOQA
+from ..dataset_loading_pipeline.pipeline import create_pipeline  # NOQA
