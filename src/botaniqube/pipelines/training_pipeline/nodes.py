@@ -2,13 +2,14 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from kedro.pipeline import node
-
+import logging
+from pathlib import Path
 
 def create_cnn_model(params):
-    num_layers = params['num_layers']
-    hidden_units = params['hidden_units']
-    image_size = params['image_size']
-    num_classes = params['num_classes']
+    num_layers = params['network']['num_layers']
+    hidden_units = params['network']['hidden_units']
+    image_size = params['preprocessing']['image_size']
+    num_classes = params['network']['num_classes']
 
     class CNN(nn.Module):
         def __init__(self):
@@ -34,10 +35,10 @@ def create_cnn_model(params):
             x = x.view(x.size(0), -1)
             x = self.fc_layers(x)
             return x
-
+    logging.info("CNN Model Created!")
     return CNN()
 
-def train_model(model, dataloaders, dataset_sizes, criterion, optimizer, num_epochs):
+def train_model(model, dataloaders, dataset_sizes, params):
     for epoch in range(num_epochs):
         for phase in ['train', 'valid']:
             if phase == 'train':
@@ -67,16 +68,10 @@ def train_model(model, dataloaders, dataset_sizes, criterion, optimizer, num_epo
             epoch_acc = correct.double() / dataset_sizes[phase]
 
             print(f'Epoch {epoch+1}/{num_epochs} | {phase} loss: {epoch_loss:.4f} | {phase} accuracy: {epoch_acc:.4f}')
-
+    logging.info("Model Trained!")
     return model
 
-def save_model(model, filepath):
-    torch.save(model.state_dict(), filepath)
-
-def create_nodes():
-    return [
-        node(create_cnn_model, inputs=["params"], outputs="model"),
-        node(train_model, inputs=["model", "dataloaders", "dataset_sizes", "params:criterion", "params:optimizer", "params:num_epochs"], outputs=None),
-        node(save_model, inputs=["model", "params:model_filepath"], outputs=None)
-    ]
+def save_model(model):
+    torch.save(model.state_dict(), Path.cwd())
+    logging.info("Model Saved!")
 

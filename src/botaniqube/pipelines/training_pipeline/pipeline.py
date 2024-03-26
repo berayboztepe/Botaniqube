@@ -1,12 +1,28 @@
-from kedro.pipeline import Pipeline
-from kedro.pipeline import node
-from pipelines.dataset_loading_pipeline.pipeline import create_pipeline as create_dataset_loading_pipeline
-from pipelines.training_pipeline.nodes import create_nodes as create_training_nodes
+from kedro.pipeline import Pipeline, node
+from .nodes import create_cnn_model, train_model, save_model
 
 def create_pipeline(**kwargs):
-    dataset_loading_pipeline = create_dataset_loading_pipeline()
-    training_nodes = create_training_nodes()
-
-    training_nodes[0].inputs = dataset_loading_pipeline.outputs
-
-    return Pipeline(dataset_loading_pipeline + training_nodes)
+    training_nodes = Pipeline(
+        [
+            node(
+                func=create_cnn_model,
+                inputs="params",
+                outputs="model",
+                name="create_cnn_model_node",
+            ),
+            node(
+                func=train_model,
+                inputs=["model", "dataloaders", "dataset_sizes", "params"],
+                outputs="model_trained",
+                name="train_model_node",
+            ),
+            node(
+                func=save_model,
+                inputs=["model_trained"],
+                outputs=None,
+                name="save_model_node",
+            )
+        ]
+    )
+    
+    return training_nodes

@@ -1,3 +1,3 @@
 # Botaniqube Training Pipeline #
 
-from ..pipeline import create_pipeline  # NOQA
+from ..training_pipeline.pipeline import create_pipeline  # NOQA
