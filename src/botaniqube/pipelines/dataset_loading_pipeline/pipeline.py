@@ -12,13 +12,19 @@ def create_pipeline(**kwargs):
             ),
             node(
                 func=get_images,
-                inputs="params",
+                inputs={
+                    "img_size": "params:image_size",
+                    "rotation": "params:rotation_range",
+                },
                 outputs="image_datasets",
                 name="get_images_node",
             ),
             node(
                 func=get_loaders,
-                inputs=["image_datasets", "params"],
+                inputs={
+                    "image_datasets": "image_datasets",
+                    "training" : "params:training",
+                },
                 outputs="dataloaders",
                 name="get_loaders_node",
             ),

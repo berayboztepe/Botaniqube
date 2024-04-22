@@ -6,13 +6,20 @@ def create_pipeline(**kwargs):
        [
             node(
                 func=prepare_test_data,
-                inputs="params",
+                inputs= {
+                    "img_size": "params:image_size",
+                    "training": "params:training",
+                },
                 outputs="test_loader",
                 name="prepare_test_data_node",
             ),
             node(
                 func=evaluate_model,
-                inputs=["params", "model_trained"],
+                inputs={
+                    "model_trained" : "model_trained",
+                    "img_size": "params:image_size",
+                    "training": "params:training",
+                },
                 outputs="evaluation_result",
                 name="evaluate_model_node",
             ),

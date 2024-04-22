@@ -6,23 +6,23 @@ import torch.nn as nn
 from pathlib import Path
 import logging
 
-def prepare_test_data(params):
+def prepare_test_data(img_size, training):
     data_transforms_test = transforms.Compose([
-        transforms.Resize(params['preprocessing']['image_size']),
+        transforms.Resize(img_size),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 
-    data_dir_test = Path.cwd() / "data" / "01_raw" / "disease_dataset" / "new-plant-diseases-dataset"
+    data_dir_test = Path.cwd() / "data" / "01_raw" / "disease_dataset"
     test_dataset = datasets.ImageFolder(root=f"{data_dir_test}/test", transform=data_transforms_test)
-    test_loader = DataLoader(test_dataset, batch_size=params['training']['batch_size'], shuffle=False)
+    test_loader = DataLoader(test_dataset, training['batch_size'], shuffle=False)
     
     logging.info("Test Data Loaded!")
     
     return test_loader
 
-def evaluate_model(params, model_trained):
-    test_loader = prepare_test_data(params)
+def evaluate_model(img_size,training, model_trained):
+    test_loader = prepare_test_data(img_size,training)
     correct = 0
     total = 0
     with torch.no_grad():
