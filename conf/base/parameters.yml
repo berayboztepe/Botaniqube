@@ -1,20 +1,20 @@
 # Network Architecture
-network:
+model:
   type: "CNN"
   num_layers: 5
   hidden_units: 256
-  num_classes: 10
+  num_classes: 38
 
 # Training Hyperparameters
 training:
-  batch_size: 32
+  batch_size: 5
   learning_rate: 0.001
-  epochs: 50
+  epochs: 1
 
 # Data Preprocessing
-preprocessing:
-  image_size: [224, 224]
-  normalization: "standardize"
-  augmentation:
-    - horizontal_flip: true
-    - rotation_range: 20
+#preprocessing:
+image_size: [224, 224]
+normalization: "standardize"
+#augmentation:
+horizontal_flip: true
+rotation_range: 20
