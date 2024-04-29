@@ -24,7 +24,7 @@ def create_pipeline(**kwargs):
                 inputs={
                     "model_trained": "model_trained",
                 },
-                outputs=None,
+                outputs="PATH",
                 name="save_model_node",
             )
         ]

@@ -73,5 +73,7 @@ def train_model(model, dataloaders, dataset_sizes, training):
     return model
 
 def save_model(model_trained):
-    torch.save(model_trained.state_dict(), Path.cwd())
+    PATH = "model.pth"
+    torch.save(model_trained.state_dict(), PATH)
     logging.info("Model Saved!")
+    return PATH

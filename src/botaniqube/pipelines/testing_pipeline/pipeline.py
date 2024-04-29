@@ -8,7 +8,7 @@ def create_pipeline(**kwargs):
                 func=prepare_test_data,
                 inputs= {
                     "img_size": "params:image_size",
-                    "training": "params:training",
+                    "batch_size": "params:training.batch_size",
                 },
                 outputs="test_loader",
                 name="prepare_test_data_node",
@@ -16,9 +16,10 @@ def create_pipeline(**kwargs):
             node(
                 func=evaluate_model,
                 inputs={
-                    "model_trained" : "model_trained",
+                    "PATH": "PATH",
+                    "params" : "params:model",
                     "img_size": "params:image_size",
-                    "training": "params:training",
+                    "batch_size": "params:training.batch_size",
                 },
                 outputs="evaluation_result",
                 name="evaluate_model_node",
