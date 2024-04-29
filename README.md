@@ -1,4 +1,4 @@
-# UWR_DeepLearningProject
+# UWR_DeepLearningProject - Anuj
 
 <img src="https://github.com/berayboztepe/UWR_DeepLearningProject/assets/150927210/2d019d2f-8b69-4c5f-ae1a-a4adce8f3949" alt="BotaniQube" width="512" height="512">
 
