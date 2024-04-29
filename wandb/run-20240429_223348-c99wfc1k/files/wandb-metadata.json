@@ -1,0 +1,53 @@
+{
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.9.18",
+    "heartbeatAt": "2024-04-29T20:33:53.279643",
+    "startedAt": "2024-04-29T20:33:48.423110",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "c:\\Users\\user\\Studia\\DataScience\\Semestr_II\\Project_Deep_Learning\\w_and_b\\log_metric.py",
+    "codePathLocal": "w_and_b\\log_metric.py",
+    "codePath": "w_and_b\\log_metric.py",
+    "git": {
+        "remote": "https://github.com/berayboztepe/UWR_DeepLearningProject.git",
+        "commit": "1f4e7f6bd4ae921d2dd0e703a5a178bd715b4524"
+    },
+    "email": "antoni.krzysztof.czapski@gmail.com",
+    "root": "C:/Users/user/Studia/DataScience/Semestr_II/Project_Deep_Learning",
+    "host": "MSI",
+    "username": "user",
+    "executable": "C:\\ProgramData\\Anaconda3\\envs\\university-masters\\python.exe",
+    "cpu_count": 6,
+    "cpu_count_logical": 12,
+    "cpu_freq": {
+        "current": 1200.0,
+        "min": 0.0,
+        "max": 2601.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1200.0,
+            "min": 0.0,
+            "max": 2601.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 809.7792930603027,
+            "used": 634.1365356445312
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 2060",
+            "memory_total": 6442450944
+        }
+    ],
+    "memory": {
+        "total": 31.84520721435547
+    }
+}
