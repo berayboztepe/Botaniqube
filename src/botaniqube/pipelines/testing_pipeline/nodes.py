@@ -6,6 +6,7 @@ import torch.nn as nn
 from pathlib import Path
 import logging
 from ..training_pipeline.nodes import create_cnn_model
+import wandb
 
 def prepare_test_data(img_size, batch_size):
     data_transforms_test = transforms.Compose([
@@ -42,4 +43,11 @@ def evaluate_model(img_size,batch_size,PATH,params):
     accuracy = 100 * correct / total
     metrics = {"loss": loss, "accuracy": accuracy}
     print(f'Test Accuracy: {accuracy:.2f}%')
+    
+    wandb.init(project='botaniqube', entity='antoni-krzysztof-czapski')
+
+    wandb.log({'accuracy': accuracy})
+
+    wandb.finish()
+
     return metrics
