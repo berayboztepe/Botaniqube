@@ -4,6 +4,8 @@ import torch.optim as optim
 from kedro.pipeline import node
 import logging
 from pathlib import Path
+import wandb
+import os
 
 def create_cnn_model(image_size: tuple, params: dict):
     num_layers = params["num_layers"]
@@ -73,7 +75,15 @@ def train_model(model, dataloaders, dataset_sizes, training):
     return model
 
 def save_model(model_trained):
-    PATH = "model.pth"
-    torch.save(model_trained.state_dict(), PATH)
-    logging.info("Model Saved!")
+    PATH = "trained_model.pth"
+    with wandb.init(project="save_and_restore") as run:
+        model_artifact = wandb.Artifact(
+            "trained-model", type="model",
+            description="Trained NN model")
+
+        torch.save(model_trained.state_dict(), PATH)
+        model_artifact.add_file("trained_model.pth")
+        wandb.save("trained_model.pth")
+        run.log_artifact(model_artifact)
+
     return PATH
