@@ -42,10 +42,10 @@ Disease classification:
 
 ## Team Members
 
-1. Antoni Czapski - 317214
-2. Anuj Jhunjhunwala - 348612
-3. Emre Beray Boztepe - 350227
-4. Valery Tarasenko - 348715
+1. Antoni Czapski
+2. Anuj Jhunjhunwala
+3. Emre Beray Boztepe
+4. Valery Tarasenko
 
 # KEDRO README
 
