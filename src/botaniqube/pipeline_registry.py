@@ -1,8 +1,7 @@
 """Project pipelines."""
 from typing import Dict
-
-from kedro.framework.project import find_pipelines
 from kedro.pipeline import Pipeline
+from botaniqube.pipelines import dataset_loading_pipeline, training_pipeline, testing_pipeline
 
 
 def register_pipelines() -> Dict[str, Pipeline]:
@@ -11,6 +10,14 @@ def register_pipelines() -> Dict[str, Pipeline]:
     Returns:
         A mapping from pipeline names to ``Pipeline`` objects.
     """
-    pipelines = find_pipelines()
-    pipelines["__default__"] = sum(pipelines.values())
-    return pipelines
+    dlp = dataset_loading_pipeline.create_pipeline()
+    trp = training_pipeline.create_pipeline()
+    tsp = testing_pipeline.create_pipeline()
+    
+    return {
+        "__default__": dlp + trp + tsp,
+        "dataset_loading": dlp,
+        "training": trp,
+        "testing": tsp,
+        "dataset_loading_training": dlp + trp,
+    }

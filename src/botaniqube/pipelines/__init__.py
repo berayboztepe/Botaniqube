@@ -10,15 +10,3 @@ class ProjectContext(KedroContext):
         # Load 'base' and 'local' configuration 
         conf_loader = OmegaConfigLoader(conf_paths) 
         return conf_loader 
-    
-    def _get_pipelines(self): 
-        """Registers project pipelines. """ 
-        from .dataset_loading_pipeline.pipeline import create_pipeline as dataset_pipeline 
-        from .training_pipeline.pipeline import create_pipeline as training_pipeline 
-        from .testing_pipeline.pipeline import create_pipeline as testing_pipeline 
-        return { 
-            "dataset_loading": dataset_pipeline(), 
-            "training": training_pipeline(), 
-            "testing": testing_pipeline(), 
-            "default_": dataset_pipeline() + training_pipeline() + testing_pipeline() 
-        }
