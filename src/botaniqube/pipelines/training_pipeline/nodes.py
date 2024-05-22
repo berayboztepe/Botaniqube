@@ -1,13 +1,11 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from kedro.pipeline import node
 import logging
-from pathlib import Path
 import wandb
-import os
 
-def create_cnn_model(image_size: tuple, params: dict):
+def create_cnn_model(params: dict):
+    image_size = params["image_size"]
     num_layers = params["num_layers"]
     hidden_units = params['hidden_units']
     num_classes = params["num_classes"]
@@ -39,10 +37,10 @@ def create_cnn_model(image_size: tuple, params: dict):
     logging.info("CNN Model Created!")
     return CNN()
 
-def train_model(model, dataloaders, dataset_sizes, training):
+def train_model(model, dataloaders, dataset_sizes, params: dict):
     optimizer = optim.SGD(model.parameters(), lr=0.01)
     criterion = torch.nn.CrossEntropyLoss()
-    for epoch in range(training['epochs']):
+    for epoch in range(params['epochs']):
         for phase in ['train', 'valid']:
             if phase == 'train':
                 model.train()
@@ -70,8 +68,14 @@ def train_model(model, dataloaders, dataset_sizes, training):
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = correct.double() / dataset_sizes[phase]
 
-            print(f'Epoch {epoch+1}/{epoch} | {phase} loss: {epoch_loss:.4f} | {phase} accuracy: {epoch_acc:.4f}')
-    logging.info("Model Trained!")
+            wandb.init(project="save_and_restore")
+            metrics = None
+            if phase == 'train':
+                metrics = {"Train Loss": epoch_loss, "Train accuracy": epoch_acc}
+            else:
+                metrics = {"Valid Loss": epoch_loss, "Valid accuracy": epoch_acc}
+            wandb.log(metrics)
+    wandb.finish()
     return model
 
 def save_model(model_trained):

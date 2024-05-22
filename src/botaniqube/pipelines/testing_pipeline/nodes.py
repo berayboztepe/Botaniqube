@@ -1,15 +1,15 @@
 import torch
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import yaml
-import torch.nn as nn
 from pathlib import Path
 import logging
 from ..training_pipeline.nodes import create_cnn_model
 import wandb
 import os
 
-def prepare_test_data(img_size, batch_size):
+def prepare_test_data(params: dict):
+    img_size = params['image_size']
+    batch_size = params['batch_size']
     data_transforms_test = transforms.Compose([
         transforms.Resize(img_size),
         transforms.ToTensor(),
@@ -24,15 +24,14 @@ def prepare_test_data(img_size, batch_size):
     
     return test_loader
 
-def evaluate_model(img_size,batch_size,PATH,params):
+def evaluate_model(params,test_loader):
     with wandb.init(project="save_and_restore") as run:
         model_artifact = run.use_artifact("trained-model:latest")
         model_dir = model_artifact.download()
         model_path = os.path.join(model_dir, "trained_model.pth")
-        model = create_cnn_model(img_size,params)
+        model = create_cnn_model(params)
         model.load_state_dict(torch.load(model_path))
         model.eval()
-        test_loader = prepare_test_data(img_size,batch_size)
         correct = 0
         err = 0
         total = 0

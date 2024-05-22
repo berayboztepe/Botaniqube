@@ -7,7 +7,6 @@ def create_pipeline(**kwargs):
             node(
                 func=create_cnn_model,
                 inputs={
-                    "image_size": "params:image_size",
                     "params": "params:model",
                 },
                 outputs="model",
@@ -15,7 +14,11 @@ def create_pipeline(**kwargs):
             ),
             node(
                 func=train_model,
-                inputs=["model", "dataloaders", "dataset_sizes", "params:training"],
+                inputs={
+                    "model":"model", 
+                    "dataloaders":"dataloaders",
+                    "dataset_sizes":"dataset_sizes", 
+                    "params":"params:training"},
                 outputs="model_trained",
                 name="train_model_node",
             ),
