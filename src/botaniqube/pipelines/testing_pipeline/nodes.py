@@ -18,7 +18,7 @@ def prepare_test_data(params: dict):
 
     data_dir_test = Path.cwd() / "data" / "01_raw" / "disease_dataset"
     test_dataset = datasets.ImageFolder(root=f"{data_dir_test}/test", transform=data_transforms_test)
-    test_loader = DataLoader(test_dataset, batch_size, shuffle=False)
+    test_loader = DataLoader(test_dataset, shuffle=False)
     
     logging.info("Test Data Loaded!")
     
@@ -33,21 +33,17 @@ def evaluate_model(params,test_loader):
         model.load_state_dict(torch.load(model_path))
         model.eval()
         correct = 0
-        err = 0
+        #err = 0
         total = 0
         with torch.no_grad():
             for images, labels in test_loader:
                 outputs = model(images)
                 _, predicted = torch.max(outputs, 1)
                 total += labels.size(0)
-                err += (predicted != labels).sum().item()
-                correct += (predicted == labels).sum().item()
+                correct += torch.sum(predicted == labels.data)
 
-        loss = 100 * err / total
-        accuracy = 100 * correct / total
-        metrics = {"loss": loss, "accuracy": accuracy}
+        accuracy = 100. * correct / total
         wandb.log({'accuracy': accuracy})
-        wandb.log({'loss': loss})
         wandb.finish()
 
-    return metrics
+    return accuracy
