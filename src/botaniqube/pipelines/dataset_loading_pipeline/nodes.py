@@ -1,7 +1,6 @@
 import torch
 from torchvision import transforms, datasets
 from pathlib import Path
-import logging
 
 def get_images(params: dict):
     img_size = params['image_size']
