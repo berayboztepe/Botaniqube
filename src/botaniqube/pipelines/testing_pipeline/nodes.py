@@ -9,7 +9,6 @@ import os
 
 def prepare_test_data(params: dict):
     img_size = params['image_size']
-    batch_size = params['batch_size']
     data_transforms_test = transforms.Compose([
         transforms.Resize(img_size),
         transforms.ToTensor(),
@@ -18,32 +17,32 @@ def prepare_test_data(params: dict):
 
     data_dir_test = Path.cwd() / "data" / "01_raw" / "disease_dataset"
     test_dataset = datasets.ImageFolder(root=f"{data_dir_test}/test", transform=data_transforms_test)
-    test_loader = DataLoader(test_dataset, shuffle=False)
-    
-    logging.info("Test Data Loaded!")
-    
+    test_loader = DataLoader(test_dataset, shuffle=True)
     return test_loader
 
-def evaluate_model(params,test_loader):
+def fetch_model(params):
     with wandb.init(project="save_and_restore") as run:
         model_artifact = run.use_artifact("trained-model:latest")
         model_dir = model_artifact.download()
         model_path = os.path.join(model_dir, "trained_model.pth")
-        model = create_cnn_model(params)
-        model.load_state_dict(torch.load(model_path))
-        model.eval()
-        correct = 0
-        #err = 0
-        total = 0
-        with torch.no_grad():
-            for images, labels in test_loader:
-                outputs = model(images)
-                _, predicted = torch.max(outputs, 1)
-                total += labels.size(0)
-                correct += torch.sum(predicted == labels.data)
+        trained_model = create_cnn_model(params)
+        trained_model.load_state_dict(torch.load(model_path))
+    return trained_model
 
-        accuracy = 100. * correct / total
-        wandb.log({'accuracy': accuracy})
-        wandb.finish()
+def evaluate_model(trained_model,test_loader):
+    wandb.init(project="save_and_restore")
+    trained_model.eval()
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for images, labels in test_loader:
+            outputs = trained_model(images)
+            _, predicted = torch.max(outputs, 1)
+            total += labels.size(0)
+            correct += torch.sum(predicted == labels.data)
+
+    accuracy = 100. * correct / total
+    wandb.log({'accuracy': accuracy})
+    wandb.finish()
 
     return accuracy
