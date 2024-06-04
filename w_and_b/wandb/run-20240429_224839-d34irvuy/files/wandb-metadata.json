@@ -1,0 +1,52 @@
+{
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.9.18",
+    "heartbeatAt": "2024-04-29T20:48:43.250297",
+    "startedAt": "2024-04-29T20:48:39.129580",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "<python with no main file>",
+    "codePathLocal": null,
+    "git": {
+        "remote": "https://github.com/berayboztepe/UWR_DeepLearningProject.git",
+        "commit": "1f4e7f6bd4ae921d2dd0e703a5a178bd715b4524"
+    },
+    "email": "antoni.krzysztof.czapski@gmail.com",
+    "root": "C:/Users/user/Studia/DataScience/Semestr_II/Project_Deep_Learning",
+    "host": "MSI",
+    "username": "user",
+    "executable": "c:\\ProgramData\\Anaconda3\\envs\\university-masters\\python.exe",
+    "cpu_count": 6,
+    "cpu_count_logical": 12,
+    "cpu_freq": {
+        "current": 1200.0,
+        "min": 0.0,
+        "max": 2601.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1200.0,
+            "min": 0.0,
+            "max": 2601.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 809.7792930603027,
+            "used": 634.2222633361816
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 2060",
+            "memory_total": 6442450944
+        }
+    ],
+    "memory": {
+        "total": 31.84520721435547
+    }
+}
