@@ -4,9 +4,6 @@ import torch.optim as optim
 import wandb
 
 def create_cnn_model(params: dict):
-    image_size = params["image_size"]
-    num_layers = params["num_layers"]
-    hidden_units = params['hidden_units']
     num_classes = params["num_classes"]
 
     class CNN(nn.Module):
@@ -31,7 +28,7 @@ def create_cnn_model(params: dict):
             return x
     return CNN()
 
-def train_model(model, dataloaders, dataset_sizes, params: dict):
+def train_model(model, dataloaders, params: dict):
     optimizer = optim.SGD(model.parameters(), lr=0.01)
     criterion = torch.nn.CrossEntropyLoss()
     wandb.init(project="save_and_restore")

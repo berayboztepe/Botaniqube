@@ -17,7 +17,6 @@ def create_pipeline(**kwargs):
                 inputs={
                     "model":"model", 
                     "dataloaders":"dataloaders",
-                    "dataset_sizes":"dataset_sizes", 
                     "params":"params:training"},
                 outputs="model_trained",
                 name="train_model_node",

@@ -28,7 +28,3 @@ def get_loaders(image_datasets, params: dict):
     batch_size = params['batch_size']
     dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size, shuffle=True, num_workers=4) for x in ['train', 'valid']}
     return dataloaders
-
-def get_sizes(image_datasets):
-    dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'valid']}
-    return dataset_sizes

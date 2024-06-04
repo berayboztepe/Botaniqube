@@ -1,5 +1,5 @@
 from kedro.pipeline import Pipeline, node, pipeline
-from .nodes import get_sizes, get_loaders, get_images
+from .nodes import get_loaders, get_images
 
 def create_pipeline(**kwargs):
     return Pipeline(
@@ -20,12 +20,6 @@ def create_pipeline(**kwargs):
                 },
                 outputs="dataloaders",
                 name="get_loaders_node",
-            ),
-            node(
-                func=get_sizes,
-                inputs="image_datasets",
-                outputs="dataset_sizes",
-                name="get_sizes_node",
             ),
         ]
     )

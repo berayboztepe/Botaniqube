@@ -2,7 +2,6 @@ import torch
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from pathlib import Path
-import logging
 from ..training_pipeline.nodes import create_cnn_model
 import wandb
 import os
