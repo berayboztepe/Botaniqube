@@ -2,12 +2,14 @@ import os
 import random
 import pathlib
 import wandb
+import shutil
 
 class DatasetCleaner:
-    def __init__(self, train_path, valid_path, dataset_decrease_rate):
+    def __init__(self, train_path, valid_path, dataset_decrease_rate, dataset_move_rate):
         self.train_path = train_path
         self.valid_path = valid_path
         self.dataset_decrease_rate = dataset_decrease_rate
+        self.dataset_move_rate = dataset_move_rate
 
     def printDatasetCounts(self, adj):
         """
@@ -80,12 +82,34 @@ class DatasetCleaner:
             print(deletedCount, len(os.listdir(currentPath)))
 
             self.deleteOperation(deletedCount, currentPath)
+
+    def moveOperation(self, movedCount, currentPath):
+        for _ in range(movedCount):
+            random_img = random.choice(os.listdir(currentPath))
+            random_img_path = pathlib.Path(currentPath) / random_img
+            move_path = pathlib.Path(currentPath).parent.parent / "test/" / currentPath.split("\\")[-1]
+            move_path_img = move_path / random_img
+            if not move_path.exists():
+                move_path.mkdir(parents=True, exist_ok=True)
+            shutil.move(random_img_path, move_path_img)
+            
+    
+    def moveRandomFiles(self, path):
+        for i in os.listdir(path):
+            currentPath = os.path.join(path, i)
+            movedCount = int(len(os.listdir(currentPath)) * self.dataset_move_rate)
+            print(movedCount, len(os.listdir(currentPath)))
+
+            self.moveOperation(movedCount, currentPath)
         
     def decreaseTrainData(self):
         self.deleteRandomFiles(self.train_path)
             
     def decreaseValidData(self):
         self.deleteRandomFiles(self.valid_path)
+
+    def increaseTestData(self):
+        self.moveRandomFiles(self.valid_path)
 
 class DatasetUploader:
     def __init__(self, path):
@@ -121,13 +145,16 @@ if __name__ == '__main__':
     valid_path = pathlib.Path().parent.parent / valid_path_str
 
     # Do not forget to choose dataset decrease rate. That means we are gonna use 10% of data we have
-    dataset_decrease_rate = 0.9
-    datasetCleaner = DatasetCleaner(train_path, valid_path, dataset_decrease_rate)
+    dataset_decrease_rate = 0.8
+    dataset_move_rate = 0.5
+    datasetCleaner = DatasetCleaner(train_path, valid_path, dataset_decrease_rate, dataset_move_rate)
 
-    datasetCleaner.printDatasetCounts("BEFORE")
-    datasetCleaner.decreaseTrainData()
-    datasetCleaner.decreaseValidData()
-    datasetCleaner.printDatasetCounts("AFTER")
+    #datasetCleaner.printDatasetCounts("BEFORE")
+    #datasetCleaner.decreaseTrainData()
+    #datasetCleaner.decreaseValidData()
+    #datasetCleaner.printDatasetCounts("AFTER VALIDATION DECREASE")
+    #datasetCleaner.increaseTestData()
+    #datasetCleaner.printDatasetCounts("AFTER TEST INCREASE")
 
     # Uploads the dataset to Wandb
     generalPath = train_path.parent
