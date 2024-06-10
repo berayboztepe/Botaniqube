@@ -16,7 +16,7 @@ def register_pipelines() -> Dict[str, Pipeline]:
     tsp = testing_pipeline.create_pipeline()
     
     return {
-        "__default__": trp + tsp,
+        "__default__": dlp + trp,
         "dataset_downloading": ddp,
         "dataset_loading": dlp,
         "training": trp,
